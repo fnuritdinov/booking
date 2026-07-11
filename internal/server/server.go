@@ -1,0 +1,114 @@
+package server
+
+import (
+	"booking-service/booking"
+	"booking-service/internal/models"
+	"booking-service/internal/service"
+	errs "booking-service/pkg/errors"
+	"booking-service/pkg/logger"
+	"context"
+	"errors"
+)
+
+type Server struct {
+	booking.UnimplementedBookingServiceServer
+	service service.Service
+	logger  logger.Logger
+}
+
+func New(service service.Service, logger logger.Logger) *Server {
+	return &Server{
+		service: service,
+		logger:  logger,
+	}
+}
+
+func (s *Server) Create(ctx context.Context, req *booking.CreateBookingRequest) (*booking.CreateBookingResponse, error) {
+
+	b, err := s.service.Create(ctx, models.Booking{
+		UserID:  req.UserId,
+		MovieID: req.MovieId,
+	})
+	if err != nil {
+		if errors.Is(err, errs.ErrValidate) {
+			return nil, errs.ErrBadRequest
+		}
+		s.logger.Error("error from s.service.Create")
+		return nil, err
+	}
+
+	return &booking.CreateBookingResponse{
+		Booking: &booking.Booking{
+			Id:      int64(b.ID),
+			UserId:  b.UserID,
+			MovieId: b.MovieID,
+			Status:  b.Status.Status,
+		},
+	}, nil
+
+}
+
+func (s *Server) GetByID(ctx context.Context, req *booking.GetBookingRequest) (*booking.GetBookingResponse, error) {
+	id := req.Id
+
+	b, err := s.service.GetByID(ctx, id)
+	if err != nil {
+		if errors.Is(err, errs.ErrNotFound) {
+			return nil, errs.ErrNotFound
+		}
+		s.logger.Error("error from s.service.GetByID")
+		return nil, err
+	}
+
+	var resp booking.GetBookingResponse
+	resp.Booking = &booking.Booking{
+		UserId:  b.UserID,
+		MovieId: b.MovieID,
+		Status:  b.Status.Status,
+	}
+	return &resp, nil
+}
+
+func (s *Server) GetUserBookings(ctx context.Context, req *booking.GetUserBookingsRequest) (*booking.GetUserBookingsResponse, error) {
+
+	userID := req.UserId
+
+	myBookings, err := s.service.GetUserBookings(ctx, userID)
+	if err != nil {
+		if errors.Is(err, errs.ErrNotFound) {
+			return nil, errs.ErrNotFound
+		}
+		s.logger.Error("error from s.service.GetUserBookings")
+		return nil, err
+	}
+
+	bookings := make([]*booking.Booking, 0, len(myBookings))
+
+	for _, b := range myBookings {
+		bookings = append(bookings, &booking.Booking{
+			Id:      int64(b.ID),
+			UserId:  b.UserID,
+			MovieId: b.MovieID,
+		})
+	}
+
+	resp := booking.GetUserBookingsResponse{
+		Bookings: bookings,
+	}
+
+	return &resp, nil
+}
+func (s *Server) Cancel(ctx context.Context, req *booking.CancelBookingRequest) (*booking.CancelBookingResponse, error) {
+
+	bookingID := req.Id
+
+	err := s.service.Cancel(ctx, bookingID)
+	if err != nil {
+		if errors.Is(err, errs.ErrNotFound) {
+			return nil, errs.ErrNotFound
+		}
+		return nil, err
+	}
+
+	return &booking.CancelBookingResponse{}, nil
+}
