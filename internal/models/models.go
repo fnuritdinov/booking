@@ -1,8 +1,8 @@
 package models
 
 import (
-	"booking-service/booking"
-	"booking-service/pkg/errors"
+	"github.com/fnuritdinov/booking/booking"
+	"github.com/fnuritdinov/booking/pkg/errors"
 )
 
 type Booking struct {
@@ -13,7 +13,7 @@ type Booking struct {
 }
 
 func (b *Booking) Validate() error {
-	if b.UserID < 1 || b.MovieID < 1 || b.Status == booking.BookingStatus("") {
+	if b.UserID < 1 || b.MovieID < 1 || b.Status.Status == 0 {
 		return errors.ErrValidate
 	}
 

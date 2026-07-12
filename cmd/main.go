@@ -1,15 +1,6 @@
 package main
 
 import (
-	"booking-service/booking"
-	"booking-service/internal/config"
-	"booking-service/internal/gateway/movie"
-	"booking-service/internal/gateway/user"
-	"booking-service/internal/repository"
-	"booking-service/internal/server"
-	"booking-service/internal/service"
-	"booking-service/pkg/db"
-	"booking-service/pkg/logger"
 	"context"
 	"log"
 	"net"
@@ -18,6 +9,16 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/fnuritdinov/booking/booking"
+	"github.com/fnuritdinov/booking/internal/config"
+	"github.com/fnuritdinov/booking/internal/gateway/movie"
+	"github.com/fnuritdinov/booking/internal/gateway/user"
+	"github.com/fnuritdinov/booking/internal/repository"
+	"github.com/fnuritdinov/booking/internal/server"
+	"github.com/fnuritdinov/booking/internal/service"
+	"github.com/fnuritdinov/booking/pkg/db"
+	"github.com/fnuritdinov/booking/pkg/logger"
+
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -25,7 +26,7 @@ import (
 
 func main() {
 
-	cfg, err := config.New("/config/config.env")
+	cfg, err := config.New("./config/config.env")
 	if err != nil {
 		log.Fatal("config.New", err)
 	}
@@ -51,17 +52,17 @@ func main() {
 
 	lis, err := net.Listen(cfg.NETWORK, cfg.ADDRESS)
 	if err != nil {
-		log.Fatal("failed to listen: %w", err)
+		lg.Error("failed to listen %w", zap.Error(err))
 	}
 
 	movieGateway, err := movie.New(cfg.ADDRESS)
 	if err != nil {
-		log.Fatal("failed to connect: %w", err)
+		lg.Error("failed to connect %w", zap.Error(err))
 	}
 
 	userGateway, err := user.New(cfg.ADDRESS)
 	if err != nil {
-		log.Fatal("failed to connect: %w", err)
+		lg.Error("failed to connect %w", zap.Error(err))
 	}
 
 	grpcServer := grpc.NewServer()
@@ -79,7 +80,7 @@ func main() {
 	go func() {
 		lg.Info("server listening at %v", zap.String("addr", lis.Addr().String()))
 		if err = grpcServer.Serve(lis); err != nil {
-			log.Fatal("failed to serve: %w", err)
+			lg.Error("failed to serve %w", zap.Error(err))
 		}
 	}()
 

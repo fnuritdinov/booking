@@ -1,13 +1,15 @@
 package server
 
 import (
-	"booking-service/booking"
-	"booking-service/internal/models"
-	"booking-service/internal/service"
-	errs "booking-service/pkg/errors"
-	"booking-service/pkg/logger"
 	"context"
 	"errors"
+
+	"github.com/fnuritdinov/booking/booking"
+	"github.com/fnuritdinov/booking/internal/models"
+	"github.com/fnuritdinov/booking/internal/service"
+	errs "github.com/fnuritdinov/booking/pkg/errors"
+	"github.com/fnuritdinov/booking/pkg/logger"
+	"go.uber.org/zap"
 )
 
 type Server struct {
@@ -25,7 +27,7 @@ func New(service service.Service, logger logger.Logger) *Server {
 
 func (s *Server) Create(ctx context.Context, req *booking.CreateBookingRequest) (*booking.CreateBookingResponse, error) {
 
-	b, err := s.service.Create(ctx, models.Booking{
+	b, err := s.service.Create(ctx, &models.Booking{
 		UserID:  req.UserId,
 		MovieID: req.MovieId,
 	})
@@ -33,7 +35,8 @@ func (s *Server) Create(ctx context.Context, req *booking.CreateBookingRequest) 
 		if errors.Is(err, errs.ErrValidate) {
 			return nil, errs.ErrBadRequest
 		}
-		s.logger.Error("error from s.service.Create")
+		s.logger.Error("error from s.service.Create",
+			zap.Error(err))
 		return nil, err
 	}
 
@@ -56,7 +59,8 @@ func (s *Server) GetByID(ctx context.Context, req *booking.GetBookingRequest) (*
 		if errors.Is(err, errs.ErrNotFound) {
 			return nil, errs.ErrNotFound
 		}
-		s.logger.Error("error from s.service.GetByID")
+		s.logger.Error("error from s.service.GetByID",
+			zap.Error(err))
 		return nil, err
 	}
 
@@ -78,7 +82,8 @@ func (s *Server) GetUserBookings(ctx context.Context, req *booking.GetUserBookin
 		if errors.Is(err, errs.ErrNotFound) {
 			return nil, errs.ErrNotFound
 		}
-		s.logger.Error("error from s.service.GetUserBookings")
+		s.logger.Error("error from s.service.GetUserBookings",
+			zap.Error(err))
 		return nil, err
 	}
 
@@ -107,6 +112,8 @@ func (s *Server) Cancel(ctx context.Context, req *booking.CancelBookingRequest) 
 		if errors.Is(err, errs.ErrNotFound) {
 			return nil, errs.ErrNotFound
 		}
+		s.logger.Error("error from s.service.Cancel",
+			zap.Error(err))
 		return nil, err
 	}
 

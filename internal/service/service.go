@@ -1,12 +1,13 @@
 package service
 
 import (
-	"booking-service/internal/gateway/movie"
-	"booking-service/internal/gateway/user"
-	"booking-service/internal/models"
-	"booking-service/internal/repository"
-	"booking-service/pkg/errors"
 	"context"
+
+	"github.com/fnuritdinov/booking/internal/gateway/movie"
+	"github.com/fnuritdinov/booking/internal/gateway/user"
+	"github.com/fnuritdinov/booking/internal/models"
+	"github.com/fnuritdinov/booking/internal/repository"
+	"github.com/fnuritdinov/booking/pkg/errors"
 )
 
 type Service struct {
@@ -23,28 +24,30 @@ func New(repo repository.Repository, mvG movie.Gateway, usG user.UserGateway) Se
 	}
 }
 
-func (s *Service) Create(ctx context.Context, req models.Booking) (models.Booking, error) {
-	if req.MovieID < 1 && req.UserID < 1 {
-		return models.Booking{}, errors.ErrBadRequest
+func (s *Service) Create(ctx context.Context, request *models.Booking) (*models.Booking, error) {
+
+	err := request.Validate()
+	if err != nil {
+		return &models.Booking{}, errors.ErrValidate
 	}
 
-	b, err := s.repo.Create(ctx, req)
+	b, err := s.repo.Create(ctx, request)
 	if err != nil {
-		return models.Booking{}, err
+		return &models.Booking{}, err
 	}
 
 	return b, nil
 }
 
-func (s *Service) GetByID(ctx context.Context, id int64) (models.Booking, error) {
+func (s *Service) GetByID(ctx context.Context, id int64) (*models.Booking, error) {
 
 	if id < 1 {
-		return models.Booking{}, errors.ErrValidate
+		return &models.Booking{}, errors.ErrValidate
 	}
 
 	b, err := s.repo.GetByID(ctx, id)
 	if err != nil {
-		return models.Booking{}, err
+		return &models.Booking{}, err
 	}
 
 	return b, nil
