@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/fnuritdinov/booking/internal/gateway/movie"
 	"github.com/fnuritdinov/booking/internal/gateway/user"
@@ -33,7 +34,7 @@ func (s *Service) Create(ctx context.Context, request *models.Booking) (*models.
 
 	b, err := s.repo.Create(ctx, request)
 	if err != nil {
-		return &models.Booking{}, err
+		return &models.Booking{}, fmt.Errorf("error from s.repo.Create %w", err)
 	}
 
 	return b, nil
@@ -47,7 +48,7 @@ func (s *Service) GetByID(ctx context.Context, id int64) (*models.Booking, error
 
 	b, err := s.repo.GetByID(ctx, id)
 	if err != nil {
-		return &models.Booking{}, err
+		return &models.Booking{}, fmt.Errorf("error from s.repo.GetByID %w", err)
 	}
 
 	return b, nil
@@ -61,7 +62,7 @@ func (s *Service) GetUserBookings(ctx context.Context, userID int64) ([]models.B
 
 	bookings, err := s.repo.GetUserBookings(ctx, userID)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error from s.repo.GetUserBookings %w", err)
 	}
 
 	return bookings, nil
@@ -75,7 +76,7 @@ func (s *Service) Cancel(ctx context.Context, bookingID int64) error {
 
 	err := s.repo.Cancel(ctx, bookingID)
 	if err != nil {
-		return err
+		return fmt.Errorf("error from s.repo.Cancel %w", err)
 	}
 
 	return nil
