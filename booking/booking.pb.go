@@ -523,8 +523,13 @@ const file_booking_booking_proto_rawDesc = "" +
 	"\x1aBOOKING_STATUS_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16BOOKING_STATUS_PENDING\x10\x01\x12\x1c\n" +
 	"\x18BOOKING_STATUS_CONFIRMED\x10\x02\x12\x1b\n" +
-	"\x17BOOKING_STATUS_CANCELED\x10\x032\x10\n" +
-	"\x0eBookingServiceB\n" +
+	"\x17BOOKING_STATUS_CANCELED\x10\x032\xcd\x02\n" +
+	"\x0eBookingService\x12N\n" +
+	"\rCreateBooking\x12\x1d.booking.CreateBookingRequest\x1a\x1e.booking.CreateBookingResponse\x12E\n" +
+	"\n" +
+	"GetBooking\x12\x1a.booking.GetBookingRequest\x1a\x1b.booking.GetBookingResponse\x12T\n" +
+	"\x0fGetUserBookings\x12\x1f.booking.GetUserBookingsRequest\x1a .booking.GetUserBookingsResponse\x12N\n" +
+	"\rCancelBooking\x12\x1d.booking.CancelBookingRequest\x1a\x1e.booking.CancelBookingResponseB\n" +
 	"Z\b/bookingb\x06proto3"
 
 var (
@@ -558,8 +563,16 @@ var file_booking_booking_proto_depIdxs = []int32{
 	1, // 1: booking.CreateBookingResponse.booking:type_name -> booking.Booking
 	1, // 2: booking.GetBookingResponse.booking:type_name -> booking.Booking
 	1, // 3: booking.GetUserBookingsResponse.bookings:type_name -> booking.Booking
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
+	2, // 4: booking.BookingService.CreateBooking:input_type -> booking.CreateBookingRequest
+	4, // 5: booking.BookingService.GetBooking:input_type -> booking.GetBookingRequest
+	6, // 6: booking.BookingService.GetUserBookings:input_type -> booking.GetUserBookingsRequest
+	8, // 7: booking.BookingService.CancelBooking:input_type -> booking.CancelBookingRequest
+	3, // 8: booking.BookingService.CreateBooking:output_type -> booking.CreateBookingResponse
+	5, // 9: booking.BookingService.GetBooking:output_type -> booking.GetBookingResponse
+	7, // 10: booking.BookingService.GetUserBookings:output_type -> booking.GetUserBookingsResponse
+	9, // 11: booking.BookingService.CancelBooking:output_type -> booking.CancelBookingResponse
+	8, // [8:12] is the sub-list for method output_type
+	4, // [4:8] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
 	4, // [4:4] is the sub-list for extension extendee
 	0, // [0:4] is the sub-list for field type_name

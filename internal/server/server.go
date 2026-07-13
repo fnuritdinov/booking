@@ -103,6 +103,7 @@ func (s *Server) GetUserBookings(ctx context.Context, req *booking.GetUserBookin
 
 	return &resp, nil
 }
+
 func (s *Server) Cancel(ctx context.Context, req *booking.CancelBookingRequest) (*booking.CancelBookingResponse, error) {
 
 	bookingID := req.Id
