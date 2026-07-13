@@ -9,7 +9,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/fnuritdinov/booking/booking"
 	"github.com/fnuritdinov/booking/internal/config"
 	"github.com/fnuritdinov/booking/internal/gateway/movie"
 	"github.com/fnuritdinov/booking/internal/gateway/user"
@@ -18,6 +17,7 @@ import (
 	"github.com/fnuritdinov/booking/internal/service"
 	"github.com/fnuritdinov/booking/pkg/db"
 	"github.com/fnuritdinov/booking/pkg/logger"
+	"github.com/fnuritdinov/proto/bookingPr"
 
 	"go.uber.org/zap"
 	"google.golang.org/grpc"

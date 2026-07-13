@@ -1,8 +1,8 @@
 package models
 
 import (
-	"github.com/fnuritdinov/booking/booking"
 	"github.com/fnuritdinov/booking/pkg/errors"
+	"github.com/fnuritdinov/proto/bookingPr"
 )
 
 type Booking struct {

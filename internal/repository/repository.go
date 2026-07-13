@@ -21,7 +21,8 @@ func New(db *pgxpool.Pool) Repository {
 	}
 }
 
-func (r *Repository) Create(ctx context.Context, req *models.Booking) (*models.Booking, error) {
+func (r *Repository) Create(ctx context.Context, req models.Booking) (models.Booking, error) {
+
 	const query = `
 	INSERT INTO booking (user_id, movie_id)
 	VALUES ($1, $2)
@@ -35,12 +36,12 @@ func (r *Repository) Create(ctx context.Context, req *models.Booking) (*models.B
 		&b.MovieID,
 		&b.Status)
 	if err != nil {
-		return &models.Booking{}, err
+		return models.Booking{}, err
 	}
-	return &b, nil
+	return b, nil
 }
 
-func (r *Repository) GetByID(ctx context.Context, id int64) (*models.Booking, error) {
+func (r *Repository) GetByID(ctx context.Context, id int64) (models.Booking, error) {
 
 	var b models.Booking
 
@@ -54,15 +55,16 @@ func (r *Repository) GetByID(ctx context.Context, id int64) (*models.Booking, er
 		&b.Status)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return &models.Booking{}, errs.ErrNotFound
+			return models.Booking{}, errs.ErrNotFound
 		}
-		return &models.Booking{}, err
+		return models.Booking{}, err
 	}
 
-	return &b, nil
+	return b, nil
 }
 
 func (r *Repository) GetUserBookings(ctx context.Context, userID int64) ([]models.Booking, error) {
+
 	const query = `SELECT id, movie_id, status 
 			FROM booking 
 			WHERE user_id = $1`
@@ -98,6 +100,7 @@ func (r *Repository) GetUserBookings(ctx context.Context, userID int64) ([]model
 }
 
 func (r *Repository) Cancel(ctx context.Context, bookingID int64) error {
+
 	const query = `UPDATE bookings 
 					SET status = $2 
 					WHERE id = $1`

@@ -4,11 +4,11 @@ import (
 	"context"
 	"errors"
 
-	"github.com/fnuritdinov/booking/booking"
 	"github.com/fnuritdinov/booking/internal/models"
 	"github.com/fnuritdinov/booking/internal/service"
 	errs "github.com/fnuritdinov/booking/pkg/errors"
 	"github.com/fnuritdinov/booking/pkg/logger"
+	"github.com/fnuritdinov/proto/bookingPr"
 	"go.uber.org/zap"
 )
 
@@ -25,9 +25,9 @@ func New(service service.Service, logger logger.Logger) *Server {
 	}
 }
 
-func (s *Server) Create(ctx context.Context, req *booking.CreateBookingRequest) (*booking.CreateBookingResponse, error) {
+func (s *Server) CreateBooking(ctx context.Context, req *booking.CreateBookingRequest) (*booking.CreateBookingResponse, error) {
 
-	b, err := s.service.Create(ctx, &models.Booking{
+	b, err := s.service.Create(ctx, models.Booking{
 		UserID:  req.UserId,
 		MovieID: req.MovieId,
 	})
@@ -51,7 +51,8 @@ func (s *Server) Create(ctx context.Context, req *booking.CreateBookingRequest) 
 
 }
 
-func (s *Server) GetByID(ctx context.Context, req *booking.GetBookingRequest) (*booking.GetBookingResponse, error) {
+func (s *Server) GetBooking(ctx context.Context, req *booking.GetBookingRequest) (*booking.GetBookingResponse, error) {
+
 	id := req.Id
 
 	b, err := s.service.GetByID(ctx, id)
@@ -104,7 +105,7 @@ func (s *Server) GetUserBookings(ctx context.Context, req *booking.GetUserBookin
 	return &resp, nil
 }
 
-func (s *Server) Cancel(ctx context.Context, req *booking.CancelBookingRequest) (*booking.CancelBookingResponse, error) {
+func (s *Server) CancelBooking(ctx context.Context, req *booking.CancelBookingRequest) (*booking.CancelBookingResponse, error) {
 
 	bookingID := req.Id
 

@@ -5,8 +5,8 @@ github.com/cespare/xxhash/v2 v2.3.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XL
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/fnuritdinov/proto v0.0.0-20260712081205-dd111d5b5fea h1:HwxkFR0Jm8TgC57SO1YhwjGz2O3ghQHV0A2LyBkYP7A=
-github.com/fnuritdinov/proto v0.0.0-20260712081205-dd111d5b5fea/go.mod h1:wIsKRf3oARuavAvsjPj1b7/1hQNwrnFCsNZqj3H8jPs=
+github.com/fnuritdinov/proto v0.0.0-20260714120016-e8a4d06e166e h1:DgPHAMznk0lDceT1k428E+pYP8LDrBHnQ1zIQ7A3EnA=
+github.com/fnuritdinov/proto v0.0.0-20260714120016-e8a4d06e166e/go.mod h1:wIsKRf3oARuavAvsjPj1b7/1hQNwrnFCsNZqj3H8jPs=
 github.com/go-logr/logr v1.4.3 h1:CjnDlHq8ikf6E492q6eKboGOC0T8CDaOvkHCIg8idEI=
 github.com/go-logr/logr v1.4.3/go.mod h1:9T104GzyrTigFIr8wt5mBrctHMim0Nb2HLGrmQ40KvY=
 github.com/go-logr/stdr v1.2.2 h1:hSWxHoqTgW2S2qGc0LTAI563KZ5YKYRhT3MFKZMbjag=

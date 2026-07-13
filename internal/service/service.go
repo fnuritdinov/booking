@@ -25,30 +25,30 @@ func New(repo repository.Repository, mvG movie.Gateway, usG user.UserGateway) Se
 	}
 }
 
-func (s *Service) Create(ctx context.Context, request *models.Booking) (*models.Booking, error) {
+func (s *Service) Create(ctx context.Context, request models.Booking) (models.Booking, error) {
 
 	err := request.Validate()
 	if err != nil {
-		return &models.Booking{}, errors.ErrValidate
+		return models.Booking{}, errors.ErrValidate
 	}
 
 	b, err := s.repo.Create(ctx, request)
 	if err != nil {
-		return &models.Booking{}, fmt.Errorf("error from s.repo.Create %w", err)
+		return models.Booking{}, fmt.Errorf("error from s.repo.Create %w", err)
 	}
 
 	return b, nil
 }
 
-func (s *Service) GetByID(ctx context.Context, id int64) (*models.Booking, error) {
+func (s *Service) GetByID(ctx context.Context, id int64) (models.Booking, error) {
 
 	if id < 1 {
-		return &models.Booking{}, errors.ErrValidate
+		return models.Booking{}, errors.ErrValidate
 	}
 
 	b, err := s.repo.GetByID(ctx, id)
 	if err != nil {
-		return &models.Booking{}, fmt.Errorf("error from s.repo.GetByID %w", err)
+		return models.Booking{}, fmt.Errorf("error from s.repo.GetByID %w", err)
 	}
 
 	return b, nil

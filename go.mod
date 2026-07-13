@@ -3,7 +3,7 @@ module github.com/fnuritdinov/booking
 go 1.26.3
 
 require (
-	github.com/fnuritdinov/proto v0.0.0-20260712081205-dd111d5b5fea
+	github.com/fnuritdinov/proto v0.0.0-20260714120016-e8a4d06e166e
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/jackc/pgx/v5 v5.10.0
 	go.uber.org/zap v1.28.0
