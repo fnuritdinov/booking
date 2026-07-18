@@ -9,11 +9,11 @@ type Booking struct {
 	ID      int
 	UserID  int64
 	MovieID int64
-	Status  booking.Booking
+	Status  booking.BookingStatus
 }
 
 func (b *Booking) Validate() error {
-	if b.UserID < 1 || b.MovieID < 1 || b.Status.Status == 0 {
+	if b.MovieID < 1 || b.UserID < 1 {
 		return errors.ErrValidate
 	}
 

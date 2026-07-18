@@ -45,7 +45,7 @@ func (s *Server) CreateBooking(ctx context.Context, req *booking.CreateBookingRe
 			Id:      int64(b.ID),
 			UserId:  b.UserID,
 			MovieId: b.MovieID,
-			Status:  b.Status.Status,
+			Status:  b.Status,
 		},
 	}, nil
 
@@ -69,7 +69,7 @@ func (s *Server) GetBooking(ctx context.Context, req *booking.GetBookingRequest)
 	resp.Booking = &booking.Booking{
 		UserId:  b.UserID,
 		MovieId: b.MovieID,
-		Status:  b.Status.Status,
+		Status:  b.Status,
 	}
 	return &resp, nil
 }

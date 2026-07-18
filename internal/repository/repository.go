@@ -101,7 +101,7 @@ func (r *Repository) GetUserBookings(ctx context.Context, userID int64) ([]model
 
 func (r *Repository) Cancel(ctx context.Context, bookingID int64) error {
 
-	const query = `UPDATE bookings 
+	const query = `UPDATE booking 
 					SET status = $2 
 					WHERE id = $1`
 
