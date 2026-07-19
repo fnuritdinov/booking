@@ -9,9 +9,11 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o app ./cmd/main.go
 
+
 FROM scratch
 
 COPY --from=builder /app/app /app
+COPY --from=builder /app/config /config
 
 EXPOSE 50053
 
